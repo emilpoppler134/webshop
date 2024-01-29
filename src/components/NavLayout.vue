@@ -4,46 +4,61 @@ import { Dialog, DialogPanel, Popover, PopoverButton, PopoverGroup, PopoverPanel
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 import logo from '../assets/logo.svg';
 
-export interface ISection {
-  _id: string;
-  name: string,
-  categories: Array<ICategory>
-  featured: Array<IFeatured>
+import type { ISection as IResponseData } from '../database';
+import { fetchSections } from '../database';
+
+interface INavigation {
+  sections: Array<ISection>;
+  pages: Array<IPage>;
 }
 
-export interface ICategory {
-  _id: string;
-  name: string,
-  parent: string,
-  collections: Array<ICollection>
+interface ISection {
+  id: string;
+  name: string;
+  categories: Array<ICategory>;
+  featured: Array<IFeatured>;
 }
 
-export interface ICollection {
-  _id: string;
-  name: string,
-  views: number,
-  parent: string,
+interface ICategory {
+  id: string;
+  name: string;
+  collections: Array<ICollection>;
+}
+
+interface ICollection {
+  id: string;
+  name: string;
+  href: string;
 }
 
 interface IFeatured {
-  name: string,
-  href: string,
-  image: string,
-  alt: string
+  name: string;
+  href: string;
+  image: string;
+  alt: string;
 }
 
-const sections: Array<ISection> = await fetch("http://localhost:4000/sections/", {method: "GET"}).then((res) => (res.json()));
+interface IPage {
+  name: string;
+  href: string;
+}
 
-const navigation = {
-  sections: sections.map((section: ISection) => (
+const sections: Array<IResponseData> | null = await fetchSections();
+
+if (sections === null) {
+  throw new Error("Failed to fetch");
+}
+
+const navigation: INavigation = {
+  sections: sections.map(section => (
     {
       id: section._id,
       name: section.name,
-      categories: section.categories.map((category: ICategory) => (
+      categories: section.categories.map(category => (
         {
           id: category._id,
           name: category.name,
-          collections: category.collections.map((collection: ICollection) => (
+          collections: category.collections.map(collection => (
             {
               id: collection._id,
               name: collection.name,
