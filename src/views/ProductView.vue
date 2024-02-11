@@ -4,6 +4,8 @@ import { useRoute } from 'vue-router';
 
 import { API_ADDRESS } from '../config';
 import { fetchProduct } from '../database';
+import { parseCartStorage } from '../parseCartStorage';
+
 import type { IProduct } from '../database';
 
 const route = useRoute();
@@ -25,18 +27,6 @@ const selected = ref("");
 const showAddedToCartMessage = ref(false);
 
 const cart: Array<string> = parseCartStorage();
-
-function parseCartStorage(): Array<string> {
-  let localStorageCart: string | null = localStorage.getItem("cart");
-
-  if (localStorageCart === null) {
-    localStorage.setItem("cart", "[]");
-    return [];
-  }
-
-  try { return JSON.parse(localStorageCart); }
-  catch(err) { localStorage.setItem("cart", "[]"); return []; }
-}
 
 function onAddToCart() {
   if (selected.value === "") return;
