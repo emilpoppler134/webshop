@@ -31,7 +31,7 @@ const image_size = "516x516";
       <div class="product-item" v-for="product, index in products" v-bind:key="index">
         <router-link :to="'/products/' + product._id">
           <div class="product-item--image">
-            <img :src="API_IMAGE_ADDRESS + product.image.key + '_' + image_size + '.' + product.image.type">
+            <img :src="API_IMAGE_ADDRESS + product.image.key + '_' + image_size + '.' + product.image.type" />
           </div>
           <div class="product-item--info">
             <span>{{ product.name }}</span>

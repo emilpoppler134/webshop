@@ -70,5 +70,12 @@ export async function fetchProducts(): Promise<Array<IProduct> | null> {
   } catch(err) { return null; }
 }
 
+export async function fetchProduct(id: string): Promise<IProduct | null> {
+  try {
+    const response: Response = await fetch(`${API_ADDRESS}/products/${id}`, {method: "GET"});
+    return response.ok ? await response.json() : null;
+  } catch(err) { return null; }
+}
+
 export type { ISection, IProduct }
-export default { fetchSections, fetchProducts }
+export default { fetchSections, fetchProducts, fetchProduct }
