@@ -67,6 +67,56 @@ interface IStockExtended extends Omit<IStock, 'product'> {
   product: IProduct;
 }
 
+/* PAYLOAD, STATUS */
+interface IPayload {
+  products: Array<string>;
+  promotionCode: string | null;
+  customer: ICustomerParams;
+  shipping: IShippingParams;
+  payment: ICardParams;
+}
+
+interface ICustomerParams {
+  name: string;
+  email: string;
+  phone: string;
+  billing: IAddressParams;
+}
+
+interface IAddressParams {
+  line1: string;
+  line2: string | null;
+  postal_code: string;
+  city: string;
+  state: string | null;
+  country: string;
+}
+
+interface IShippingParams {
+  name: string;
+  phone: string;
+  address: IAddressParams;
+}
+
+interface ICardParams {
+  cc_name: string;
+  cc_number: string;
+  exp_month: string;
+  exp_year: string;
+  cc_csc: string;
+}
+
+interface IStatus {
+  status: EStatus;
+  data?: any;
+  error?: any;
+}
+
+enum EStatus {
+  OK = "OK",
+  ERROR = "ERROR"
+}
+
 export async function fetchProducts(): Promise<Array<IProduct> | null> {
   try {
     const response: Response = await fetch(`${API_ADDRESS}/products/`, {method: "GET"});
@@ -88,5 +138,19 @@ export async function fetchProduct(id: string): Promise<IProduct | null> {
   } catch(err) { return null; }
 }
 
-export type { ISection, IProduct, IStockExtended }
-export default { fetchSections, fetchProducts, fetchProductsByStockId, fetchProduct }
+export async function sendPayment(payload: IPayload): Promise<IStatus | null> {
+  try {
+    const options: RequestInit = {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    }
+    const response: Response = await fetch(`${API_ADDRESS}/checkout/charge`, options);
+    return response.ok ? await response.json() : null;
+  } catch(err) { return null; }
+}
+
+export type { ISection, IProduct, IStockExtended, IPayload, IStatus }
+export default { fetchSections, fetchProducts, fetchProductsByStockId, fetchProduct, sendPayment }
