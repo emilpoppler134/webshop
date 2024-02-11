@@ -31,11 +31,13 @@ const API_IMAGE_ADDRESS = API_ADDRESS + "/images/";
 const image_size = "516x516";
 
 const shippingFee = 99;
+const subtotal = ref(line_items.value.map(item => item.price).reduce((a, b) => a + b, 0));
 
 function onRemoveFromCart(id: string) {
   const index = line_items.value.findIndex(item => {
     return item.id === id;
   });
+  subtotal.value = subtotal.value - line_items.value[index].price;
   line_items.value.splice(index, 1);
 
   cart.splice(cart.indexOf(id), 1);
@@ -77,7 +79,7 @@ async function onCheckout() {
       </div>
       <div class="summary-item">
         <span>Subtotal</span>
-        <span>{{ line_items.map(item => item.price).reduce((a, b) => a + b, 0) }}.00 SEK</span>
+        <span>{{ subtotal }}.00 SEK</span>
       </div>
       <div class="summary-item">
         <span>Shipping</span>
@@ -85,7 +87,7 @@ async function onCheckout() {
       </div>
       <div class="summary-item summary-item--bordered">
         <span>Total</span>
-        <span>{{ line_items.map(item => item.price).reduce((a, b) => a + b, 0) + shippingFee }}.00 SEK</span>
+        <span>{{ subtotal + shippingFee }}.00 SEK</span>
       </div>
 
       <button class="checkout-button" :class="{'disabled': cart.length === 0}" @click="onCheckout">Checkout</button>
