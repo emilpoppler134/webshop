@@ -10,6 +10,7 @@ import SearchView from '../views/SearchView.vue';
 import SigninView from '../views/SigninView.vue';
 import SignupView from '../views/SignupView.vue';
 import StoreView from '../views/StoreView.vue';
+import SuccessView from '../views/SuccessView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/checkout',
       name: 'checkout',
       component: CheckoutView
+    },
+    {
+      path: '/checkout/success',
+      name: 'success',
+      component: SuccessView
     },
     {
       path: '/company',
