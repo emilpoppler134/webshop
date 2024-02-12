@@ -89,6 +89,7 @@ async function onSubmit() {
   }
 
   if (paymentResponse.status === "OK") {
+    localStorage.setItem("cart", "[]");
     router.replace({path: "/checkout/success"});
   } else {
     console.error(paymentResponse.error);
