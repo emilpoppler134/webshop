@@ -67,6 +67,27 @@ interface IStockExtended extends Omit<IStock, 'product'> {
   product: IProduct;
 }
 
+export async function fetchProducts(): Promise<Array<IProduct> | null> {
+  try {
+    const response: Response = await fetch(`${API_ADDRESS}/products/`, {method: "GET"});
+    return response.ok ? await response.json() : null;
+  } catch(err) { return null; }
+}
+
+export async function fetchProduct(id: string): Promise<IProduct | null> {
+  try {
+    const response: Response = await fetch(`${API_ADDRESS}/products/${id}`, {method: "GET"});
+    return response.ok ? await response.json() : null;
+  } catch(err) { return null; }
+}
+
+export async function fetchProductsByStockId(cart: Array<string>): Promise<Array<IStockExtended> | null> {
+  try {
+    const response: Response = await fetch(`${API_ADDRESS}/stock/${cart.join(",")}`, {method: "GET"});
+    return response.ok ? await response.json() : null;
+  } catch(err) { return null; }
+}
+
 /* PAYLOAD, STATUS */
 interface IPayload {
   products: Array<string>;
@@ -117,27 +138,6 @@ enum EStatus {
   ERROR = "ERROR"
 }
 
-export async function fetchProducts(): Promise<Array<IProduct> | null> {
-  try {
-    const response: Response = await fetch(`${API_ADDRESS}/products/`, {method: "GET"});
-    return response.ok ? await response.json() : null;
-  } catch(err) { return null; }
-}
-
-export async function fetchProductsByStockId(cart: Array<string>): Promise<Array<IStockExtended> | null> {
-  try {
-    const response: Response = await fetch(`${API_ADDRESS}/stock/${cart.join(",")}`, {method: "GET"});
-    return response.ok ? await response.json() : null;
-  } catch(err) { return null; }
-}
-
-export async function fetchProduct(id: string): Promise<IProduct | null> {
-  try {
-    const response: Response = await fetch(`${API_ADDRESS}/products/${id}`, {method: "GET"});
-    return response.ok ? await response.json() : null;
-  } catch(err) { return null; }
-}
-
 export async function sendPayment(payload: IPayload): Promise<IStatus | null> {
   try {
     const options: RequestInit = {
@@ -151,6 +151,7 @@ export async function sendPayment(payload: IPayload): Promise<IStatus | null> {
     return response.ok ? await response.json() : null;
   } catch(err) { return null; }
 }
+
 
 export type { ISection, IProduct, IStockExtended, IPayload, IStatus }
 export default { fetchSections, fetchProducts, fetchProductsByStockId, fetchProduct, sendPayment }

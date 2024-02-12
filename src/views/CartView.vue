@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router'
+import { useRouter } from 'vue-router';
+
+import { API_ADDRESS } from '../config';
 import { fetchProductsByStockId } from '../database';
 import { parseCartStorage } from '../parseCartStorage';
-import { API_ADDRESS } from '../config';
 
 import type { IStockExtended } from '../database';
 

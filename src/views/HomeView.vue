@@ -1,8 +1,7 @@
 <script setup lang="ts">
-// import angleDownIcon from '../assets/angle-down.svg';
-
 import { API_ADDRESS } from '../config'
 import { fetchProducts } from '../database';
+
 import type { IProduct } from '../database';
 
 const products: Array<IProduct> | null = await fetchProducts();

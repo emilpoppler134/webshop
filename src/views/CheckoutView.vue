@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
-import { fetchProductsByStockId, sendPayment } from '../database';
-import { parseCartStorage } from '../parseCartStorage';
-import { form, validation, emailValidation, validateEmail, formatCCNumberInput, formatCCExpInput } from '../validation';
+
 import { API_ADDRESS } from '../config';
+import { fetchProductsByStockId, sendPayment } from '../database';
+import { form, validation, emailValidation, validateEmail, formatCCNumberInput, formatCCExpInput } from '../validation';
+import { parseCartStorage } from '../parseCartStorage';
+
+import cardAmexIcon from '../assets/icons/amex.svg';
+import cardMastercardIcon from '../assets/icons/mastercard.svg';
+import cardVisaIcon from '../assets/icons/visa.svg';
+import discountCodeIcon from '../assets/icons/discount-code.svg';
 
 import type { IStockExtended, IPayload, IStatus } from '../database';
-
-import discountCodeIcon from '../assets/icons/discount-code.svg';
-import cardVisaIcon from '../assets/icons/visa.svg';
-import cardMastercardIcon from '../assets/icons/mastercard.svg';
-import cardAmexIcon from '../assets/icons/amex.svg';
 
 const router = useRouter();
 

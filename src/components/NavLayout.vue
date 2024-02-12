@@ -2,10 +2,11 @@
 import { ref } from 'vue';
 import { Dialog, DialogPanel, Popover, PopoverButton, PopoverGroup, PopoverPanel, Tab, TabGroup, TabList, TabPanel, TabPanels, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+
+import { fetchSections } from '../database';
 import logo from '../assets/logo.svg';
 
 import type { ISection as IResponseData } from '../database';
-import { fetchSections } from '../database';
 
 interface INavigation {
   sections: Array<ISection>;

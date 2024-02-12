@@ -55,12 +55,11 @@ export function validateEmail(event: Event) {
 
 export function formatCCNumberInput(event: Event): void {
   const input = event.target as HTMLInputElement;
-  const unformattedValue = input.value.replace(/\s/g, ''); // Remove existing spaces
+  const unformattedValue = input.value.replace(/\s/g, '');
 
-  // Format as xxxx xxxx xxxx xxxx
   const formattedValue = unformattedValue
-    .replace(/\D/g, '') // Remove non-numeric characters
-    .replace(/(\d{4})(?=\d)/g, '$1 '); // Add space after every 4 characters except the last group
+    .replace(/\D/g, '')
+    .replace(/(\d{4})(?=\d)/g, '$1 ');
 
   form.value.cc_number = formattedValue;
   input.value = form.value.cc_number;
